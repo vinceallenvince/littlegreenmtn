@@ -1,0 +1,22 @@
+{
+  "name": "littlegreenmtn",
+  "version": "0.1.0",
+  "main": "main.js",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "express-json": "^1.0.0",
+    "q": "^1.4.1",
+    "request": "^2.60.0",
+    "twitter": "^1.2.5"
+  },
+  "devDependencies": {
+    "expect": "~1.1.0",
+    "istanbul": "^0.3.14",
+    "mocha": "~2.0.1",
+    "sinon": "~1.12.1"
+  },
+  "scripts": {
+    "test": "istanbul cover _mocha -- test/"
+  }
+}
