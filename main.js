@@ -7,6 +7,7 @@ var json = require('express-json');
 var exec = require('child_process').exec;
 var request = require('request');
 var Twitter = require('twitter');
+var Sample = require('./sample');
  
 var client = new Twitter({
   consumer_key: config.consumer_key,
@@ -19,7 +20,7 @@ var MAX_CHARS = 140;
 var checkpointFile = "johnnycash/lm_seq30_epoch3.15_1.6535.t7";
 var checkpointTemperature = "0.5";
 
-app.use( bodyParser.json() );
+app.use(bodyParser.json());
 app.use(json());
 
 /**
@@ -76,7 +77,27 @@ function pullText() {
 	})
 }
 
+/*function handleSample_(sample, primeText) {
+
+	var smp = new Sample();
+	var arr = smp.createSentenceArray(sample, primeText);
+	smp.removeBlankLines(arr).
+			trimTotalCharsToMaxChars(startIndex, arr).
+			breakEachLine(arr).
+			capitalizeFirstLetterOfFirstLine(arr);
+
+	var message = arr.join(" ");
+	console.log(message);
+	client.post('statuses/update', {status: message},  function(error, tweet, response) {
+	  if (error) throw error;
+	  console.log("Tweet success!"); 
+	});
+
+}*/
+
 function handleSample(sample, primeText) {
+
+
 
 	// split the string into an array of sentences
 	var arr = sample.replace(primeText, "").trim().split("\n");
