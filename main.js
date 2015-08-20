@@ -55,7 +55,7 @@ function pullText(res) {
 	    var primeText = results.weather[0].description;
 	    console.log("primeText: %s", primeText);
 
-	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + __dirname + '/char-rnn/cv/' + checkpointFile + ' -temperature ' + checkpointTemperature + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
+	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + __dirname + '/char-rnn/cv/' + CHECKPOINT_FILE + ' -temperature ' + CHECKPOINT_TEMP + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
 
 			exec(command, function(err, stdout, stderr) {
 				if (err) console.log(err);
