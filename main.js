@@ -47,8 +47,6 @@ app.get('/', function (req, res) {
   pullText(res);
 });
 
-Command failed: /bin/sh -c th /root/development/ifttt/littlegreenmtn/char-rnn/sample.lua /root/development/ifttt/littlegreenmtn/char-rnn/cv/~/development/ml/cv/countrymale/lm_seq30_epoch50.00_1.1655.t7 -temperature 0.5 -verbose 0 -length 5000 -primetext "broken clouds"
-
 function pullText(res) {
 
 	request('http://api.openweathermap.org/data/2.5/weather?zip=11215,us', function (error, response, body) {
