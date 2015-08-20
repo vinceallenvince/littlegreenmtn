@@ -8,7 +8,8 @@
     "express-json": "^1.0.0",
     "q": "^1.4.1",
     "request": "^2.60.0",
-    "twitter": "^1.2.5"
+    "twitter": "^1.2.5",
+    "drawing-utils-lib": "0.1.4"
   },
   "devDependencies": {
     "expect": "~1.1.0",

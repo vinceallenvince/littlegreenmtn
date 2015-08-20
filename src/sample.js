@@ -17,19 +17,27 @@ function Sample(maxChars, minLines, linesToSkip) {
 }
 
 /**
- * Returns the sum of characters in an array of strings.
+ * Returns the total number of characters in an array of strings plus the
+ * array length. We also add the array length to represent a line return. 
  * @param {Array} arr An array of strings.
  * @return {number} Total characters.
  */
 Sample.prototype._countTotalChars = function(arr) {
 	if (!arr) throw Error("Sample._countTotalChars requires an array.");
-	var totalChars = 0, l = arr.length;
+	var totalChars = 0;
 	arr.forEach(function(val) {
 		totalChars += val.length;
 	});
-	return totalChars;
+	return totalChars + arr.length;
 };
 
+// TODO: this should not break full words
+/**
+ * Trims the total number of characters in a string to match
+ * the maximum character length. 
+ * @param {Array} arr An array of strings.
+ * @return {number} Total characters.
+ */
 Sample.prototype._trimLineToMaxLength = function(str) {
 	return str.substr(0, this.maxChars); 
 };
@@ -107,21 +115,31 @@ Sample.prototype.trimTotalCharsToMaxChars = function(startIndex, arr) {
  */
 Sample.prototype.breakEachLine = function(arr) {
 	if (!arr) throw Error("Sample.breakEachLine requires an array.");
-	var l = arr.length;
-	for (var i = 1; i < l; i++) {
+	for (var i = 0, l = arr.length; i < l; i++) {
 		arr[i] = "\n" + arr[i];
 	}
 	return this;
 };
 
 /**
- * Capitalize first charactor of first line.
+ * Capitalize first character of first line.
  * @param {Array} arr An array of strings.
  * @return {Array} An array.
  */
 Sample.prototype.capitalizeFirstLetterOfFirstLine = function(arr) {
 	if (!arr) throw Error("Sample.capitalizeFirstLetterOfFirstLine requires an array.");
 	arr[0] = arr[0].charAt(0).toUpperCase() + arr[0].slice(1);
+	return this;
+};
+
+/**
+ * Remove first line return.
+ * @param {Array} arr An array of strings.
+ * @return {Array} An array.
+ */
+Sample.prototype.removeFirstLineReturn = function(arr) {
+	if (!arr) throw Error("Sample.removeFirstLineReturn requires an array.");
+	arr[0] = arr[0].slice(1);
 	return this;
 };
 
