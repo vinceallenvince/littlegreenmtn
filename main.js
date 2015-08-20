@@ -8,7 +8,7 @@ var exec = require('child_process').exec;
 var request = require('request');
 var Utils = require('drawing-utils-lib');
 var Twitter = require('twitter');
-var Sample = require('./sample');
+var Sample = require('./src/sample');
  
 var client = new Twitter({
   consumer_key: config.consumer_key,
