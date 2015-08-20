@@ -9,7 +9,7 @@ function Sample(maxChars, minLines, linesToSkip) {
 	if (typeof maxChars == "undefined" ||
 		typeof minLines == "undefined" ||
 		typeof linesToSkip == "undefined") {
-		throw Error("A new Sample requires maxChars and linesToSkip.");
+		throw Error("A new Sample requires maxChars, minLines and linesToSkip.");
 	}
 	this.maxChars = maxChars;
 	this.minLines = minLines;

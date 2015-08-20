@@ -18,6 +18,11 @@ var client = new Twitter({
 });
 
 var MAX_CHARS = 140;
+var MIN_LINES = 20;
+var LINES_TO_SKIP = {
+	"[Instrumental]": true,
+	"[Chorus]": true
+};
 var CHECKPOINT_FILE = "~/development/ml/cv/countrymale/lm_seq30_epoch50.00_1.1655.t7";
 var CHECKPOINT_TEMP = "0.5";
 var SAMPLE_LENGTH = 1000;
@@ -69,7 +74,7 @@ function pullText(res) {
 
 function handleSample(sample, primeText, res) {
 	
-	var sample = new Sample();
+	var sample = new Sample(MAX_CHARS, MIN_LINES, LINES_TO_SKIP);
 	var arr = sample.createSentenceArray(body, primeText);
 	var upperBound = sample.findIndexRangeUpperBounds(arr);
 	
