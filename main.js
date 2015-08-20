@@ -47,6 +47,8 @@ app.get('/', function (req, res) {
   pullText(res);
 });
 
+Command failed: /bin/sh -c th /root/development/ifttt/littlegreenmtn/char-rnn/sample.lua /root/development/ifttt/littlegreenmtn/char-rnn/cv/~/development/ml/cv/countrymale/lm_seq30_epoch50.00_1.1655.t7 -temperature 0.5 -verbose 0 -length 5000 -primetext "broken clouds"
+
 function pullText(res) {
 
 	request('http://api.openweathermap.org/data/2.5/weather?zip=11215,us', function (error, response, body) {
@@ -55,7 +57,7 @@ function pullText(res) {
 	    var primeText = results.weather[0].description;
 	    console.log("primeText: %s", primeText);
 
-	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + __dirname + '/char-rnn/cv/' + CHECKPOINT_FILE + ' -temperature ' + CHECKPOINT_TEMP + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
+	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + CHECKPOINT_FILE + ' -temperature ' + CHECKPOINT_TEMP + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
 
 			exec(command, function(err, stdout, stderr) {
 				if (err) console.log(err);
