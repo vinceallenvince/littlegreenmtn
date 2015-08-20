@@ -72,10 +72,10 @@ function pullText(res) {
 	})
 }
 
-function handleSample(sample, primeText, res) {
+function handleSample(text, primeText, res) {
 	
 	var sample = new Sample(MAX_CHARS, MIN_LINES, LINES_TO_SKIP);
-	var arr = sample.createSentenceArray(body, primeText);
+	var arr = sample.createSentenceArray(text, primeText);
 	var upperBound = sample.findIndexRangeUpperBounds(arr);
 	
 	sample.removeBlankLines(arr).
