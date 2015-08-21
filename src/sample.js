@@ -90,6 +90,19 @@ Sample.prototype.removeBlankLines = function(arr) {
 };
 
 /**
+ * Trims all lines in the array.
+ * @param {Array} arr An array of strings.
+ * @return {Array} An array.
+ */
+Sample.prototype.trimAllLines = function(arr) {
+	if (!arr) throw Error("Sample.trimAllLines requires an array.");
+	for (var i = 0, l = arr.length; i < l; i++) {
+		arr[i].trim();
+	}
+	return this;
+};
+
+/**
  * Removes array entries until total character count
  * is less than the max character count.
  * @param {number} startIndex The initial array entry.
@@ -99,6 +112,7 @@ Sample.prototype.removeBlankLines = function(arr) {
 Sample.prototype.trimTotalCharsToMaxChars = function(startIndex, arr) {
 	if (!arr) throw Error("Sample.trimTotalCharsToMaxChars requires an array.");
 	arr.splice(0, startIndex); // remove entries up to the start index
+
 	for (var i = arr.length - 1; i >= 0; i--) { // iterate from end of array removing entries and testing char length
 		arr[i] = this._trimLineToMaxLength(arr[i]);
 		if (this._countTotalChars(arr) < this.maxChars) break;

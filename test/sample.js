@@ -3,6 +3,7 @@ var expect = require('expect');
 var sinon = require('sinon');
 var request = require("request");
 var Utils = require('drawing-utils-lib');
+var sampleArrayLong = require('./sampleArrayLong');
 
 var sample;
 var MAX_CHARS = 140;
@@ -307,13 +308,14 @@ describe('Sample', function() {
 	it("should create a tweetable phrase from a body of text given a random starting point in the text.", function() {
 		var maxTests = 10000;
 		for (var i = 0; i < maxTests; i++) {
-			var body = "I saw the light of a clear blue morning\nBut I don't want to talk about it now\nI know it's over I'm so happy and I haven't said that I could be\nSo I will make it through the night\nAnd I'll be still the same again\nYou are my sinner honey you're my baby\nThen I'll be right before the night\nAnd I know that I'm a lovin' baby in the morning\nAnd I'm lookin' for a heart of gold\nI made a mistake that I can't love again\nI ain't got nothin' but time\nOh you see me off my mind\nI never got to see you in the way\nYou're the one that I would be on my feet\nWhen you were feeling salty and more\nAnd I won't be home no more.\nI was born to love you as long as I can\nAnd I'm gonna love you the way it used to\n[Chorus]\nAnd the reason I can see the light of a clear blue morning\nI gotta get the best of you and me\nAnd I'll be home and I'm so lonely I'm going through\n[Instrumental]\nIt was a rounder in my heart";
-			var primeText = "partly cloudy";
-			
-			var arr = sample.createSentenceArray(body, primeText);
+
+			var arr = sampleArrayLong;
+
+			sample.removeBlankLines(arr);
+ 
 			var upperBound = sample.findIndexRangeUpperBounds(arr);
-			
-			sample.removeBlankLines(arr).
+						
+			sample.trimAllLines(arr).
 					breakEachLine(arr).
 					trimTotalCharsToMaxChars(Utils.getRandomNumber(0, upperBound), arr).
 					removeFirstLineReturn(arr).

@@ -73,13 +73,15 @@ function pullText(res) {
 }
 
 function handleSample(text, primeText, res) {
-	console.log(text);
+
 	var sample = new Sample(MAX_CHARS, MIN_LINES, LINES_TO_SKIP);
 	var arr = sample.createSentenceArray(text, primeText);
+
+	sample.removeBlankLines(arr);
+
 	var upperBound = sample.findIndexRangeUpperBounds(arr);
-	console.log(arr);
-	console.log("upperBound: %s", upperBound);
-	sample.removeBlankLines(arr).
+
+	sample.trimAllLines(arr).
 			breakEachLine(arr).
 			trimTotalCharsToMaxChars(Utils.getRandomNumber(0, upperBound), arr).
 			removeFirstLineReturn(arr).
