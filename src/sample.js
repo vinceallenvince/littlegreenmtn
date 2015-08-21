@@ -39,7 +39,11 @@ Sample.prototype._countTotalChars = function(arr) {
  * @return {number} Total characters.
  */
 Sample.prototype._trimLineToMaxLength = function(str) {
-	return str.substr(0, this.maxChars); 
+	if (str.length <= this.maxChars) {
+		return str;
+	}
+	var strTrimmed = str.substr(0, this.maxChars);
+	return strTrimmed.substr(0, strTrimmed.lastIndexOf(" "));
 };
 
 /**
@@ -97,7 +101,7 @@ Sample.prototype.removeBlankLines = function(arr) {
 Sample.prototype.trimAllLines = function(arr) {
 	if (!arr) throw Error("Sample.trimAllLines requires an array.");
 	for (var i = 0, l = arr.length; i < l; i++) {
-		arr[i].trim();
+		arr[i] = arr[i].trim();
 	}
 	return this;
 };

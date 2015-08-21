@@ -74,7 +74,8 @@ describe('Sample', function() {
 	it("should trim lines to max char length.", function () {
 		var str = "I saw the light of a clear blue morning But I don't want to talk about it now I know it's over I'm so happy and I haven't said that I could be So I will make it through the night And I'll be still the same again";
 		str = sample._trimLineToMaxLength(str);
-		expect(str.length).toEqual(140);
+
+		expect(str).toEqual("I saw the light of a clear blue morning But I don't want to talk about it now I know it's over I'm so happy and I haven't said that I could");
 	});
 
 	it("should find the array index representing the upper bounds of the sample content.", function () {
@@ -184,6 +185,31 @@ describe('Sample', function() {
     };
     
     expect(fn).toThrow();
+
+	});
+
+it("should trim all whitespace at the beginning and end of lines.", function () {
+
+		var fn = function() {
+      sample.trimAllLines();
+    };
+
+    expect(fn).toThrow();
+
+		var arr = [
+			"I saw the light of a clear blue morning ",
+			"But I don't want to talk about it now ",
+			"I know it's over I'm so happy and I haven't said that I could be ",
+			"So I will make it through the night "
+		];
+		var expectedResults = [
+			"I saw the light of a clear blue morning",
+			"But I don't want to talk about it now",
+			"I know it's over I'm so happy and I haven't said that I could be",
+			"So I will make it through the night"
+		];
+		sample.trimAllLines(arr);
+    expect(arr).toEqual(expectedResults);
 
 	});
 
@@ -306,7 +332,7 @@ describe('Sample', function() {
 	});
 
 	it("should create a tweetable phrase from a body of text given a random starting point in the text.", function() {
-		var maxTests = 10000;
+		var maxTests = 50000;
 		for (var i = 0; i < maxTests; i++) {
 
 			var arr = sampleArrayLong;
