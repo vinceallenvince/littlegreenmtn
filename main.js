@@ -24,22 +24,22 @@ var LINES_TO_SKIP = {
 	"[Chorus]": true
 };
 var CHECKPOINT_FILE = "~/development/ml/cv/countrymale/lm_seq30_epoch50.00_1.1655.t7";
-var CHECKPOINT_TEMP = "0.5";
+var CHECKPOINT_TEMP = process.argv[2] || "0.5";
 var SAMPLE_LENGTH = 1000;
 
-app.use(bodyParser.json());
-app.use(json());
+//app.use(bodyParser.json());
+//app.use(json());
 
-var server = app.listen(4000, function () {
+/*var server = app.listen(4000, function () {
 
   var host = server.address().address;
   var port = server.address().port;
 
   console.log('Listening at http://%s:%s', host, port);
 
-});
+});*/
 
-app.get('/', function (req, res) {
+/*app.get('/', function (req, res) {
 
   var key = req.query.key;
 
@@ -50,15 +50,16 @@ app.get('/', function (req, res) {
   }
 
   pullText(res);
-});
+});*/
 
 function pullText(res) {
-
-	request('http://api.openweathermap.org/data/2.5/weather?zip=11215,us', function (error, response, body) {
+  var url = "http://api.openweathermap.org/data/2.5/weather?APPID=" + config.open_weather_key + "&zip=11215,us";
+	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    var results = JSON.parse(body);
 	    var primeText = results.weather[0].description;
-	    console.log("primeText: %s", primeText);
+	    console.log("Prime text: %s", primeText);
+      console.log("Char-rnn temperature: %s", CHECKPOINT_TEMP);
 
 	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + CHECKPOINT_FILE + ' -temperature ' + CHECKPOINT_TEMP + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
 
@@ -68,7 +69,15 @@ function pullText(res) {
 				if (stderr) console.log(stderr);
 			});
 
-	  }
+	  } else {
+      console.log("Error: ", error);
+      console.log("Response code: %s", response.statusCode);
+      var msgBody = JSON.parse(response.body);
+      console.log("Response body: %s", msgBody.message);
+      //if (msgBody.message) {
+        //res.send(msgBody.message);
+      //}
+    }
 	})
 }
 
@@ -88,10 +97,16 @@ function handleSample(text, primeText, res) {
 			capitalizeFirstLetterOfFirstLine(arr);
 
 	var message = arr.join(" ");
-	res.send(message);
+	//res.send(message);
 	console.log(message);
 	client.post('statuses/update', {status: message},  function(error, tweet, response) {
 	  if (error) throw error;
-	  console.log("Tweet success!"); 
+    var body = JSON.parse(response.body);
+	  console.log("Tweeted: %s", body.created_at);
+    console.log("Tweet id: %s", body.id);
+    console.log(" ");
 	});
 }
+
+pullText();
+
