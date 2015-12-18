@@ -25,6 +25,7 @@ var LINES_TO_SKIP = {
 };
 var CHECKPOINT_FILE = "~/development/ml/cv/countrymale/lm_seq30_epoch50.00_1.1655.t7";
 var CHECKPOINT_TEMP = "0.5";
+var CHECKPOINT_SEED = 1234;
 var SAMPLE_LENGTH = 1000;
 
 app.use(bodyParser.json());
@@ -49,6 +50,12 @@ app.get('/', function (req, res) {
     return;
   }
 
+  if (req.query.temperature) {
+		CHECKPOINT_TEMP = req.query.temperature;
+  }
+
+  CHECKPOINT_SEED = Utils.getRandomNumber(0, 1000);
+
   pullText(res);
 });
 
@@ -60,7 +67,7 @@ function pullText(res) {
 	    var primeText = results.weather[0].description;
 	    console.log("primeText: %s", primeText);
 
-	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + CHECKPOINT_FILE + ' -temperature ' + CHECKPOINT_TEMP + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
+	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + CHECKPOINT_FILE + ' -temperature ' + CHECKPOINT_TEMP + ' -seed ' + CHECKPOINT_SEED + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
 
 			exec(command, function(err, stdout, stderr) {
 				if (err) console.log(err);
