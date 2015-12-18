@@ -60,14 +60,15 @@ app.get('/', function (req, res) {
 });
 
 function pullText(res) {
-
-	request('http://api.openweathermap.org/data/2.5/weather?zip=11215,us', function (error, response, body) {
+  var url = "http://api.openweathermap.org/data/2.5/weather?APPID=" + config.open_weather_key + "&zip=11215,us";
+	request(url, function (error, response, body) {
 	  if (!error && response.statusCode == 200) {
 	    var results = JSON.parse(body);
 	    var primeText = results.weather[0].description;
-	    console.log("primeText: %s", primeText);
+	    console.log("Prime text: %s", primeText);
+      console.log("Char-rnn temperature: %s", CHECKPOINT_TEMP);
 
-	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + CHECKPOINT_FILE + ' -temperature ' + CHECKPOINT_TEMP + ' -seed ' + CHECKPOINT_SEED + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
+	    var command = 'th ' + __dirname + '/char-rnn/sample.lua ' + CHECKPOINT_FILE + ' -temperature ' + CHECKPOINT_TEMP + ' -verbose 0 -length 5000 -primetext "' + primeText + '"';
 
 			exec(command, function(err, stdout, stderr) {
 				if (err) console.log(err);
@@ -75,7 +76,15 @@ function pullText(res) {
 				if (stderr) console.log(stderr);
 			});
 
-	  }
+	  } else {
+      console.log("Error: ", error);
+      console.log("Response code: %s", response.statusCode);
+      var msgBody = JSON.parse(response.body);
+      console.log("Response body: %s", msgBody.message);
+      if (msgBody.message) {
+        res.send(msgBody.message);
+      }
+    }
 	})
 }
 
