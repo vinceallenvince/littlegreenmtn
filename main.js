@@ -99,6 +99,9 @@ function handleSample(text, primeText, res) {
 	console.log(message);
 	client.post('statuses/update', {status: message},  function(error, tweet, response) {
 	  if (error) throw error;
-	  console.log("Tweet success!"); 
+	  var body = JSON.parse(response.body);
+	  console.log("Tweeted: %s", body.created_at);
+	  console.log("Tweet id: %s", body.id);
+	  console.log(" ");
 	});
 }
